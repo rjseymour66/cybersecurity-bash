@@ -26,21 +26,21 @@ Every program is a process, and every process has 3 distinct file descriptors:
 Redirection is when you change the input and outputs of a program without modifying the program.
 
 The following command sends `input.txt` to the STDIN of `program`, and sends the output to `output.out`:
-```shell
+```bash
 $ program < input.txt > output.out
 ```
 
 To distinguish between STDOUT and STDERR, use the file descriptor `2>`. The following command redirects error messages to `err.msgs`:
-```shell
+```bash
 $ program 2> err.msgs
 ```
 Or, combine all redirection methods:
-```shell
+```bash
 $ program < input.txt > output.out 2> err.msgs
 ```
 
 Combined redirect: To send STDERR to the same location as STDOUT, combine the error messages with the standard output:
-```shell
+```bash
 $ program < input.txt > output.out 2>&1
 # shorthand
 $ program < input.txt &> output.out
@@ -48,37 +48,37 @@ $ program < input.txt &> output.out
 The previous command sends input.txt to program, then sends the STDOUT and STDERR to output.out. The shorthand is more clear.
 
 Commonly, you can discard STDOUT by sending it to `/dev/null`:
-```shell
+```bash
 $ program < input.txt > /dev/null
 ```
 
 The `tee` command sends output to STDOUT and the file that follows the command:
-```shell
+```bash
 $ program < input.txt | tee results.out # the -a option allows tee to append to the file
 ```
 To append to a file, use the `>>` operator:
-```shell
+```bash
 $ program < input.txt >> appended.file
 ```
 To append STDOUT and STDERR, use `&>>`:
-```shell
+```bash
 $ program < input.txt &>> appended.file
 ```
 
 ### Running commands in the background
 
 Use the `&` operator at the end of the command to run it in the background:
-```shell
+```bash
 $ ping 10.20.30.40 > ping.log &
 ```
 
 When you run a task in the background, send both STDOUT and STDERR so the task doesn't log everything to the console:
-```shell
+```bash
 $ ping 10.20.30.40 &> ping.log &
 ```
 
 To bring a job back to the foreground, use `jobs` to list running tasks, then use `fg` with the corresponding task number:
-```shell
+```bash
 $ ping 192.168.10.56 &> ping.log &
 [1] 7452
 $ jobs
@@ -88,7 +88,7 @@ ping 192.168.10.56 &> ping.log
 ^C
 ```
 Stop a running job with `Ctrl+z`, and send it to the background with `bg`:
-```shell
+```bash
 $ ping 192.168.10.56 &> ping.log &
 [1] 7572
 $ fg 1
@@ -114,7 +114,7 @@ The second option uses `env` to look up the location of the `bash` executable. T
 
 ## Commands
 
-```shell
+```bash
 $ type -t cat # identify what the argument is
 file
 
