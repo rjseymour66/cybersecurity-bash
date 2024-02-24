@@ -290,7 +290,7 @@ RETVAL=$(myfunc arg1 arg1)
 > more patterns if you turn on shell's `extglob` option
 
 | Character class | Description |
-|:---------------:|:------------|
+|:----------------|:------------|
 | [:alnum:] | Alphanumeric |
 | [:alpha:] | Alphabetic|
 | [:ascii:] | ASCII |
