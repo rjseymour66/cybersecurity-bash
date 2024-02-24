@@ -316,5 +316,120 @@ RETVAL=$(myfunc arg1 arg1)
 | [:space:] | Whitespace, including line breaks|
 | [:upper:] | Uppercase|
 | [:word:]  | Letters, numbers, and underscore|
-| [:xdigit:] | Hexadecimal|
+| [:xdigit:] | Hexadecimal |
 
+## Regex primer
+
+In bash, regex are valid only when using the `=~` comparison in the double-bracket (`[[ ]]`) compound command.
+
+### grep
+
+Searches a file for a pattern and prints the line if there is a match:
+
+```bash
+grep <options> <pattern> <filenames>
+grep -R -i 'password' /home
+
+# egrep to extend syntax for ?, +, {, |, (, and )
+```
+
+| Option | Description |
+|:-------|:------------|
+| `-c`   | Count number of lines that match the pattern |
+| `-E`   | Enable extended regex |
+| `-f`   | Read from a file |
+| `-i`   | Ignore case |
+| `-l`   | Print only filename and path where the pattern was found |
+| `-n`   | Print line number where pattern was found |
+| `-P`   | Enable Perl regex (for [shortcuts](#shortcuts)) |
+| `-R, -r` | Recursively search subdirectories |
+
+### Metacharacters
+
+Escape with `\` to treat characters with special meaning.
+
+```bash
+. # match any single character except newline
+? # preceding char is optional, match zero or one time
+* # preceding char is optional, match zero or more times
++ # preceding char match one or more times
+```
+
+### Grouping 
+
+group with parentheses to treat characters as one item
+
+```bash
+egrep 'And be one (stranger|traveler), long I stood' frost.txt 
+3    And be one traveler, long I stood
+```
+### Brackets and character classes
+
+`[]` define character classes and lists of acceptable characters:
+
+| Example | Description |
+|:--------|:------------|
+| `[abc]` | Match only `a`, `b`, or `c` |
+| `[1-5]` | Match digits in range from `1` to `5` |
+| `[a-zA-Z]` | Match lower or uppercase letter |
+| `[0-9 +-*/]` | Match any number or math symbol |
+| `[0-9a-fA-F]` | Match any hexadecmial digit |
+| `[1-475]` | Match numbers between `1` and `4`, and digits `7` and `5` |
+
+#### Shortcuts
+
+> Not supported by `egrep`, must use `-P` option:
+
+| Shortcut | Description |
+|:---------|:------------|
+| `\s`  | Whitespace  |
+| `\S`  | Not whitespace |
+| `\d`  | Digit |
+| `\D`  | Not digit |
+| `\w`  | Word |
+| `\W`  | Not word |
+| `\x`  | Hexidecimal number |
+
+#### Character classes
+
+Only match single character, use `+` or `*` to find repetition, and has to be in brackets (`[[:<char-class>:]]`):
+
+| Character class | Description |
+|:----------------|:------------|
+| [:alnum:] | Alphanumeric |
+| [:alpha:] | Alphabetic|
+| [:ctrl:]  | Control characters|
+| [:digit:] | Number|
+| [:graph:] | Anything other than control characters and space|
+| [:lower:] | Lowercase|
+| [:print:] | Anything other than control characters|
+| [:punct:] | Puncuation|
+| [:space:] | Whitespace, including line breaks|
+| [:xdigit:] | Hexadecimal |
+
+### Back references
+
+A back reference lets you reference a previous regex match. You have to close the regex in `( )`, and then reference it later with a backslash and number.
+
+The following back reference matches any HTML tag. The `\1` means, "match again with whatever was matched in the preceding parentheses":
+
+```bash
+egrep ;<([a-zA-Z]*)>.*</\1> file.txt
+```
+
+You can have more than one back reference, e.g. `()...\2`, `()...\3`, etc..
+
+### Quantifiers
+
+```bash
+T{5}   # T must appear 5 consecutive times
+T{3,6} # T must appear 3 to 6 times
+T{5,}  # T must appear 5 or more times
+```
+
+### Anchors and word boundaries
+
+```bash
+^[1-5] # beginning anchor. Matching string must start with 1-5 as the first char
+[1-5]$ # end anchor. Matching string must end with 1-5 as the first char
+```
