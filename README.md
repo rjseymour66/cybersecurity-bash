@@ -219,7 +219,7 @@ then
     echo "$VAL is too small"
 fi
 
-# for < or > signs, use (( ))
+# when comparing numbers with the < or > signs, use (( ))
 if (( VAL > 2))
 then
     echo "value $VAL is too small
@@ -245,4 +245,21 @@ for ((i=0; i < 100; i++))
 do
     echo $i
 done
+```
+
+### Functions
+
+```bash
+function myfunc()
+{
+    # do something
+}
+
+# call functions like a shell command
+myfunc arg1 arg2 arg3
+
+# function arguments are accessible with $1, $2,.... You have to 
+#   store the script args in variables to use them in functions.
+# $# is the number of args passed to the func
+# $0 is still the name of the script
 ```
