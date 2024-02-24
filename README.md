@@ -249,6 +249,12 @@ done
 
 ### Functions
 
+Function arguments are accessible with $1, $2,.... You have to store the script args in variables to use them in functions
+- $# is the number of args passed to the func
+- $0 is still the name of the script
+
+Functions return a status. To return other values, set a variable to hold the value.
+
 ```bash
 function myfunc()
 {
@@ -258,8 +264,45 @@ function myfunc()
 # call functions like a shell command
 myfunc arg1 arg2 arg3
 
-# function arguments are accessible with $1, $2,.... You have to 
-#   store the script args in variables to use them in functions.
-# $# is the number of args passed to the func
-# $0 is still the name of the script
+# both of these functions run in a subshell
+myfunc arg1 arg1 | next-step | etc
+RETVAL=$(myfunc arg1 arg1)
 ```
+
+### Pattern matching
+
+```bash
+*   # match any number of any character
+?   # match a single character ex. source.? returns source.c but not source.cpp
+[ ] # match any of the characters within the brackets
+```
+
+#### Bracket matching
+
+```bash
+[0-9]  # range
+[!cat] # match anything other than the chars in the brackets
+[^cat] # match anything other than the chars in the brackets
+*[[:punct:]]jpg # match any file with any number of characters followed by a 
+                # punctuation character, then 'jpg'
+```
+
+> more patterns if you turn on shell's `extglob` option
+
+| Character class | Description |
+|:---------------:|:------------|
+| [:alnum:] | Alphanumeric |
+| [:alpha:] | Alphabetic|
+| [:ascii:] | ASCII |
+| [:blank:] | Space and tab|
+| [:ctrl:]  | Control characters|
+| [:digit:] | Number|
+| [:graph:] | Anything other than control characters and space|
+| [:lower:] | Lowercase|
+| [:print:] | Anything other than control characters|
+| [:punct:] | Puncuation|
+| [:space:] | Whitespace, including line breaks|
+| [:upper:] | Uppercase|
+| [:word:]  | Letters, numbers, and underscore|
+| [:xdigit:] | Hexadecimal|
+
