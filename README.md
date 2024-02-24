@@ -13,6 +13,24 @@ The commands that you can run are either files, built-ins, or keywords:
 - built-ins are part of the shell, such as `pwd` or `cd`
 - keywords are part of the language of the shell, such as `if`
 
+## Commands
+
+```bash
+$ type -t cat # identify what the argument is
+file
+
+# compgen lists what commands (-c), keywords (-k), and built-ins (-b) are available
+$ compgen -k
+if
+then
+else
+elif
+fi
+case
+esac
+...
+```
+
 ### STDIN, STDOUT, STDERR
 
 Every program is a process, and every process has 3 distinct file descriptors:
@@ -24,6 +42,13 @@ Every program is a process, and every process has 3 distinct file descriptors:
 ### Redirection and piping
 
 Redirection is when you change the input and outputs of a program without modifying the program.
+
+| Operator | Description | Example |
+|----------|:------------|---------|
+| `>` | Sends the output of the value on the left to the value on the right. | `$ ls -la > listing.out` |
+| `<` | Sends the value on the right to the STDIN of the value on the left. | `$ program < input.txt` |
+| `2>` | Redirect STDERR messages to the value on the right. | `$ cp -r /etc/a /etc/b 2> err.msg` |
+| `2>&1`, `&>`| Send output to STDOUT and STDERR. Place this  | `XXXXXXXXXXX` |
 
 The following command sends `input.txt` to the STDIN of `program`, and sends the output to `output.out`:
 ```bash
@@ -112,22 +137,112 @@ Scripts contain more than one shell commands. Use `chmod 755 scriptname` to make
 
 The second option uses `env` to look up the location of the `bash` executable. This is supposed to solve portability problems.
 
-## Commands
+## Bash primer
 
 ```bash
-$ type -t cat # identify what the argument is
-file
+# output
+echo 'word'
+printf 'word\n'
+```
 
-# compgen lists what commands (-c), keywords (-k), and built-ins (-b) are available
-$ compgen -k
-if
+### Variables
+
+```bash
+VARNAME=varvaluetext
+# to get the var, prepend a $
+echo $VARNAME
+
+# single quotes preseve space
+VARNAME='this is the variable value'
+# double quotes allow substitutions
+NEWVAR="this is $VARNAME"
+
+# store value of shell command
+PRINTDIR=$(pwd)
+echo $PRINTDIR
+```
+### Positional parameters
+
+```bash
+$0 # name of script
+$1 # first param
+$2 # second param
+
+$# # number of params passed
+```
+
+### Input
+
+```bash
+# read accepts input from stdin and stores in var
+read INPUTVAR
+echo $INPUTVAR
+```
+
+### Conditionals
+
+> `$?` stores the return code for a command. Use it directly after the command runs.
+
+```bash
+# if a command returns a 0, then do x, y, and z
+if <command>
 then
+    <something>
 else
-elif
+    <something else>
 fi
-case
-esac
-...
+```
+
+### Tests
+
+| Operator | Use case |
+|:---------|:---------|
+| -d | Test if directory exists|
+| -e | Test if file exists|
+| -r | Test if file exists and is readable |
+| -w | Test if file exists and is writeable |
+| -x | Test if file exists and is executable |
+| -eq | Test if numbers are equal |
+| -gt | Test if first number is greater than second number |
+| -lt | Test if first number is less than second number |
+
+```bash
+# [[ ]] is the compound command
+if [[ -e $FILENAME ]]
+then
+    echo $FILENAME existsd
+fi
+
+# numbers
+if [[ $VAL -lt $MIN ]]
+then
+    echo "$VAL is too small"
+fi
+
+# for < or > signs, use (( ))
+if (( VAL > 2))
+then
+    echo "value $VAL is too small
+fi
+
+if (( $? )) ; then echo "previous command failed" ; fi
+```
+
+### Loops
 
 
+```bash
+# while loop
+i=0
+while (( i < 100 ))
+do
+    echo $i
+    let i++
+done
+
+# for loop
+for ((i=0; i < 100; i++))
+do
+    echo $i
+done
 ```
