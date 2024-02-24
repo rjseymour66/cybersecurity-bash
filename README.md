@@ -164,11 +164,22 @@ echo $PRINTDIR
 ### Positional parameters
 
 ```bash
+$@ # stores all args and makes them avaialable in array
 $0 # name of script
 $1 # first param
 $2 # second param
-
 $# # number of params passed
+
+for var in $@
+do
+    echo "Hello, $var."
+done
+
+# 'for' loops over the arguments by default, as long as you don't ad the 'in x' part
+for ARG
+do
+    echo here is an argument: $ARG
+done
 ```
 
 ### Input
@@ -219,7 +230,8 @@ then
     echo "$VAL is too small"
 fi
 
-# when comparing numbers with the < or > signs, use (( ))
+# for arithmetic operations, or when comparing numbers with 
+# the < or > signs, use (( ))
 if (( VAL > 2))
 then
     echo "value $VAL is too small
