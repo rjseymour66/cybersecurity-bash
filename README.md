@@ -346,13 +346,13 @@ grep -R -i 'password' /home
 
 ### Metacharacters
 
-Escape with `\` to treat characters with special meaning.
+Escape with `\` to treat characters without special meaning.
 
 ```bash
 . # match any single character except newline
 ? # preceding char is optional, match zero or one time
 * # preceding char is optional, match zero or more times
-+ # preceding char match one or more times
++ # match preceding char one or more times
 ```
 
 ### Grouping 
@@ -414,7 +414,7 @@ A back reference lets you reference a previous regex match. You have to close th
 The following back reference matches any HTML tag. The `\1` means, "match again with whatever was matched in the preceding parentheses":
 
 ```bash
-egrep ;<([a-zA-Z]*)>.*</\1> file.txt
+egrep <([a-zA-Z]*)>.*</\1> file.txt
 ```
 
 You can have more than one back reference, e.g. `()...\2`, `()...\3`, etc..
