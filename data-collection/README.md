@@ -59,3 +59,16 @@ Get info about log files from `syslog.conf` or `rsyslog.conf`.
 |netstat -a       |netstat -a  |netstat    |network connections|
 |mount            |net share   |diskinfo   |mounted disks|
 |ps -e            |tasklist    |processes  |running processes|
+
+
+## readarray
+
+`readarray` reads from STDIN and reads until it hits a newline or EOF. Here is how you read from a file:
+
+```bash
+readarray INPUTARRAY
+
+for LINE in "${INPUTARRAY[@]}"; do
+    # do work
+done
+```
