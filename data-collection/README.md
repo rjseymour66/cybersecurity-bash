@@ -72,3 +72,57 @@ for LINE in "${INPUTARRAY[@]}"; do
     # do work
 done
 ```
+
+## String slicing
+
+```bash
+# '#' means match from the left (like comments)
+# '%' means match from the right (like 5%, in general math) 
+
+# removes everything to the right of STRING, including "|"
+VAR=${STRING%%|*}
+# removes first match to left of STRING, including "|"
+VAR=${STRING#*|}
+```
+
+## Searching the filesystem
+
+```bash
+# find searchs provided dir and subdir
+# name searches for file name that matches pattern
+find /home -name '*password*'
+find /home -name '.*'
+
+# surpress errors
+find /home -name '*password*' 2>/dev/null
+
+# file > 5GB
+find /home -size +5G
+
+# find 5 largest files in filesystem, supressing errors
+ls / -R -s 2>/dev/null | sort -n -r | head -5
+
+# modified time searches
+find /home -mmin -5         # modified less than 5 mins ago
+find /home -mtime -1        # modified less than 24 hrs ago
+find /home -mtime +2        # modified more than 2 days ago
+find /home -atime -1        # modified less than 24 hours ago
+
+# exec option executes the command and replaces '{}' with the filepath
+# search for all files in /home that were accessed less than 24 
+# hours ago, and copy them to the pwd
+find /home -type f -atime -1 -exec cp '{}' ./ \;    # '\;' ends the exec clause, not separate bash commands
+                                                    # '{}' expands to the path of each result found in /home
+
+# content search
+
+# search home and subdirs for the string 'password'
+grep -r -i /home -e 'password'  # -e means use regex
+
+# find and grep. get all files in /home with password in the title and copy to pwd
+find /home -type -f -exec grep 'password' '{}' \; -exec cp '{}' . \;
+
+
+# search by file type
+
+```
