@@ -16,6 +16,9 @@
 #   <path> Path to start search
 #
 
+# shorter version of this script:
+# find / -type f -exec file '{}' \; | egrep 'PNG' | cut -d' ' -f1
+
 DEEPORNOT="-maxdepth 1" # just the current dir; default
 
 # PARSE option arguments
@@ -46,6 +49,7 @@ find $STARTDIR $DEEPORNOT -type f | while read FN; do
     if (($? == 0)); then # found one
         echo $FN
         if [[ $COPY ]]; then
+            # p preserves mode, ownership, and timestamp of file
             cp -p $FN $DESTDIR
         fi
     fi

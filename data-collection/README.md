@@ -49,16 +49,16 @@ Get info about log files from `syslog.conf` or `rsyslog.conf`.
 
 ## Gather system info
 
-| Linux Command   |MSWin  Bash |XML tag    |Purpose |
-|-----------------+------------+-----------+--------|
-| uname -a        |uname -a    |uname      |O.S. version etc|
-|cat /proc/cpuinfo|systeminfo  |sysinfo    |system hardware and related info|
-|ifconfig         |ipconfig    |nwinterface|Network interface information|
-|ip route         |route print |nwroute    |routing table|
-|arp -a           |arp -a      |nwarp      |ARP table|
-|netstat -a       |netstat -a  |netstat    |network connections|
-|mount            |net share   |diskinfo   |mounted disks|
-|ps -e            |tasklist    |processes  |running processes|
+| Linux Command   |MSWin  Bash |Purpose |
+|-----------------|------------|--------|
+| uname -a        |uname -a    | O.S. version etc|
+|cat /proc/cpuinfo|systeminfo  | system hardware and related info|
+|ifconfig         |ipconfig    | Network interface information|
+|ip route         |route print | routing table|
+|arp -a           |arp -a      | ARP table|
+|netstat -a       |netstat -a  | network connections|
+|mount            |net share   | mounted disks|
+|ps -e            |tasklist    | running processes|
 
 
 ## readarray
@@ -125,4 +125,71 @@ find /home -type -f -exec grep 'password' '{}' \; -exec cp '{}' . \;
 
 # search by file type
 
+```
+
+### find in a loop
+
+```bash
+find $DIR <option> -type f | while read FN; do
+    file $FN | egrep -q $CASEMATCH "$PATTERN"
+    if (($? == 0)); then # found one
+        echo $FN
+        if [[ $COPY ]]; then
+            cp -p $FN $DESTDIR
+        fi
+    fi
+done
+```
+
+## getops CLI parser
+
+```bash
+# while loop that uses getops builtin
+# 'c:irR' are the accepted options. ":" means "c" accepts an arg
+# opt is user-provided variable that shell stores each option
+#   in for the loop
+# OPTARG is the arg currently in process
+# OPTIND is the next arg
+while getopts 'c:irR' opt; do
+    case "${opt}" in
+    c) # copy found files to specified directory
+        COPY=YES
+        DESTDIR="$OPTARG"
+        ;;
+    i) # ignore u/l case differences in search
+        CASEMATCH='-i'
+        ;;
+    [Rr]) # recursive, accept upper or lowercase
+        unset DEEPORNOT ;;
+    *)  # matches anything--unknown/unsupported option
+        # error mesg will com from getopts, so just exit
+        exit 2 ;;
+    esac
+done
+# shift resets parsed args. shift 5 resets from $6 to $1
+# getops tracks args with OPTIND-it refers to the next arg to be processed
+shift $((OPTIND - 1))
+```
+
+### default values
+
+```bash
+# :- means if PATTERN isn't set, set to 'PDF document'
+# set STARTDIR to '.'
+PATTERN=${1:-PDF document}
+STARTDIR=${2:-.} # By default, start here
+```
+
+## Message digest value
+
+```bash
+$ sha1sum cmd.txt 
+a5376365573cea36944c5fafe6793101e096a632  cmd.txt
+```
+
+## Transferring data
+
+```bash
+# can add a similar line to end of collection scripts
+scp info.tar.gz user@hostname:/home/path/to/dest
 ```

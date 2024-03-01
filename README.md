@@ -169,6 +169,7 @@ $0 # name of script
 $1 # first param
 $2 # second param
 $# # number of params passed
+$? # value returned by previous command
 
 for var in $@
 do
@@ -222,6 +223,11 @@ fi
 if [[ -e $FILENAME ]]
 then
     echo $FILENAME existsd
+fi
+
+# if VAR has a value
+if [[ $VAR ]]; then
+    # do something
 fi
 
 # numbers
@@ -342,6 +348,7 @@ grep -R -i 'password' /home
 | `-l`   | Print only filename and path where the pattern was found |
 | `-n`   | Print line number where pattern was found |
 | `-P`   | Enable Perl regex (for [shortcuts](#shortcuts)) |
+| `-q`   | Do not output anything |
 | `-R, -r` | Recursively search subdirectories |
 
 ### Metacharacters
