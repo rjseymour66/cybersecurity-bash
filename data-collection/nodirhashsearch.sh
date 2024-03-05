@@ -30,6 +30,8 @@ find $DIR -type f |
         THISONE=${THISONE%% *}
         if [[ $THISONE == $HASH ]]; then
             mkabspath "$fn"
-            echo $ABS
+            echo ${ABS\.\.\//}
         fi
     done
+
+# 3c1bb0cd5d67dddc02fae50bf56d3a3a4cbc7204

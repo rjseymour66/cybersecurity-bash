@@ -15,12 +15,12 @@ ssh <hostname> command
 ssh mycomputer ps
 
 # redirect to file on local machine
-ssh ps > filename.out
+ssh <hostname> ps > filename.out
 
 # redirect on remote machine
 #   backslash escapes > on local shell, passes to 
 #   remote where it is executed)
-ssh ps \> /tmp/ps.out
+ssh <hostname> ps \> /tmp/ps.out
 
 # run local script on remote system.
 #   This runs the bash command on the remote and 
@@ -81,8 +81,12 @@ done
 
 # removes everything to the right of STRING, including "|"
 VAR=${STRING%%|*}
+
 # removes first match to left of STRING, including "|"
 VAR=${STRING#*|}
+
+# removes SUBSTRING
+VAR=${STRING//SUBSTRING/}
 ```
 
 ## Searching the filesystem
@@ -166,7 +170,7 @@ while getopts 'c:irR' opt; do
         exit 2 ;;
     esac
 done
-# shift resets parsed args. shift 5 resets from $6 to $1
+# shift resets parsed args. If 3 args were read, this resets the arg count of the next arg to be processed(OPTIND) from $4 to $1.
 # getops tracks args with OPTIND-it refers to the next arg to be processed
 shift $((OPTIND - 1))
 ```
@@ -176,8 +180,8 @@ shift $((OPTIND - 1))
 ```bash
 # :- means if PATTERN isn't set, set to 'PDF document'
 # set STARTDIR to '.'
-PATTERN=${1:-PDF document}
-STARTDIR=${2:-.} # By default, start here
+PATTERN=${1:-PDF document} # use 1st arg, but if not set, use 'PDF document'
+STARTDIR=${2:-.} # use the 2nd arg, but if not set, use cwd
 ```
 
 ## Message digest value
@@ -193,3 +197,5 @@ a5376365573cea36944c5fafe6793101e096a632  cmd.txt
 # can add a similar line to end of collection scripts
 scp info.tar.gz user@hostname:/home/path/to/dest
 ```
+
+scp 

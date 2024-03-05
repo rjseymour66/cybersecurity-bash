@@ -8,12 +8,14 @@
 # matches a given SHA-1 hash
 #
 # Usage:
-# hashsearch.sh <hash> <directory>
+# optionhashsearch.sh <hash> <directory> [-1]
 #   hash - SHA-1 hash value to file to find
 #   directory - Top directory to start search
+#   -1 - Stop searching when a match is found
 
 HASH=$1
-DIR=${2:-.} # if $2 is not set, default to cwd
+DIR=${2:-.}
+ONEMATCH=$3
 
 # convert pathname into an absolute path
 function mkabspath() {
@@ -31,5 +33,8 @@ find $DIR -type f |
         if [[ $THISONE == $HASH ]]; then
             mkabspath "$fn"
             echo $ABS
+            if [[ $ONEMATCH ]]; then
+                exit
+            fi
         fi
     done
