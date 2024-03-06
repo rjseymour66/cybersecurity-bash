@@ -1,0 +1,2 @@
+drive|path/name
+c|/Users/Default/file.txt
