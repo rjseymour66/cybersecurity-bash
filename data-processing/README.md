@@ -14,6 +14,10 @@ awk '$2 == "Jones" {print $0}' awkusers.txt
 
 Combines lines of two files that share a common field.
 
+- _-j_ join using the specified field number
+- _-t_ specify char to use as a field separator. Space is default.
+- _--header_ use first line of each file as the header
+
 ```bash
 # join the 3rd field of file1.txt with 1st field of file2.txt
 # -t specifies the comma "," as the delimiter
@@ -23,6 +27,8 @@ join -1 3 -2 1 -t, file1.txt file2.txt
 ## sed
 
 Perform edits on a stream of data, such as replacing characters (called _in place_ replacement):
+
+- _-i_ edit specified file and overwrite in place
 
 ```bash
 # in a file, replace all instances of 10.0.4.35 with 10.0.4.27
@@ -38,7 +44,10 @@ sed -i 's/$/\r/' linux.txt
 
 ## tail
 
-Output last lines of file. 10 by default:
+Output last lines of file. 10 by default.
+
+- _-f_ monitor the file and output lines as they're added
+- _-n_ output number of lines specified
 
 ```bash
 # output last line
@@ -49,10 +58,10 @@ tail -n 1 file.txt
 
 Translate or map from one character to another, deleted unwanted characters. Only reads from STDIN and writes to STDOUT.
 
-```bash
--d # delete the character from the input stream
--s # (squeeze) replace repeated instances of a character with a single instance
+- _-d_ delete the character from the input stream
+- _-s_ (squeeze) replace repeated instances of a character with a single instance
 
+```bash
 # change all backslashes to forward slashes and colons to bars
 # need 2 backslashes to escape the second one--backslash is special in tr ('\n', '\r', etc)
 # character position in first arg map to char position in the second 
