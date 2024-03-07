@@ -47,9 +47,12 @@ tail -n 1 file.txt
 
 ## tr
 
-Translate or map from one character to another, deleted unwanted characters. Only reads from STDIN and writes to STDOUT:
+Translate or map from one character to another, deleted unwanted characters. Only reads from STDIN and writes to STDOUT.
 
 ```bash
+-d # delete the character from the input stream
+-s # (squeeze) replace repeated instances of a character with a single instance
+
 # change all backslashes to forward slashes and colons to bars
 # need 2 backslashes to escape the second one--backslash is special in tr ('\n', '\r', etc)
 # character position in first arg map to char position in the second 
@@ -57,4 +60,13 @@ tr '\\:' '/|' < infile.txt > outfile.txt
 
 # convert Windows line endings to linux
 tr -d '\r' < wrong.txt > right.txt
+```
+
+## Processing delimited files
+
+```bash
+# get just first field, 'name' in this case
+cut -d ',' -f1 file.txt
+
+
 ```
