@@ -1,0 +1,14 @@
+{ 
+  "title": "Cybersecurity Ops with bash",
+  "edition": 1,
+  "authors": [ 
+    {
+      "firstName": "Paul",
+      "lastName": "Troncone"
+    },
+    {
+      "firstName": "Carl",
+      "lastName": "Albing"
+    }
+  ]
+}
