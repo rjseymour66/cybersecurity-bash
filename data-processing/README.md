@@ -103,6 +103,9 @@ grep "$(awk -F "," '{print $4}' csvex.txt)" passwords.txt
 ```bash
 # chain 2 cut commands to get the 3rd field, then chars from the field
 cut -d ',' -f3 csvex.txt | cut -c2-13 | tail -n +2
+
+# cut from character 2 to end of line
+cut -d ' ' -f4,10 filename.txt | cut -c2-
 ```
 
 ## JSON
