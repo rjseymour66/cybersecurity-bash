@@ -14,6 +14,10 @@
 # mismatch - search through the array of known names
 #   returns 1 (false) if it finds a match
 #   returns 0 (true) if there is no match
+
+# default first arg
+FILENAME=${1:-'known.hosts'}
+
 function mismatch() {
     local -i i
     for ((i = 0; i < $KNSIZE; i++)); do

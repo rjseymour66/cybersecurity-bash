@@ -71,6 +71,9 @@ readarray INPUTARRAY
 for LINE in "${INPUTARRAY[@]}"; do
     # do work
 done
+
+# read contents of file into VAR array. -t removes trailing \n
+readarry -t VAR < file.txt
 ```
 
 ## String slicing
